@@ -2,20 +2,37 @@
     controllerName="ui5.claude.controller.ProductDetail"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:f="sap.f"
     xmlns:form="sap.ui.layout.form"
     displayBlock="true">
-    <Page
+    <f:DynamicPage
         id="idProductDetailPage"
-        title="{i18n>viewProductDetailTitle}"
-        showNavButton="true"
-        navButtonPress="onPageProductDetailNavButtonPress">
-        <content>
+        fitContainer="true"
+        showFooter="false"
+        toggleHeaderOnTitleClick="true">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="{i18n>viewProductDetailTitle}" />
+                </f:heading>
+                <f:navigationActions>
+                    <Button
+                        id="idProductDetailNavButton"
+                        icon="sap-icon://nav-back"
+                        tooltip="{i18n>viewProductDetailNavBackTooltip}"
+                        press="onPageProductDetailNavButtonPress" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
             <form:SimpleForm
                 id="idProductDetailSimpleForm"
                 editable="false"
                 adjustLabelSpan="false"
-                columnsXL="1"
-                columnsL="1">
+                layout="ResponsiveGridLayout"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="1">
                 <form:content>
                     <Label id="idProductNameLabel" text="{i18n>viewProductDetailLabelProductName}" />
                     <Text id="idProductNameText" text="{northwind>ProductName}" />
@@ -31,6 +48,6 @@
                     <Text id="idDiscontinuedText" text="{northwind>Discontinued}" />
                 </form:content>
             </form:SimpleForm>
-        </content>
-    </Page>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>

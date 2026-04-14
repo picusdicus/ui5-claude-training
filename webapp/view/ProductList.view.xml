@@ -3,31 +3,44 @@
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
     displayBlock="true">
-    <Page id="productListPage" title="{i18n>viewProductListTitle}">
-        <headerContent>
-            <Button
-                id="refreshButton"
-                icon="sap-icon://refresh"
-                tooltip="{i18n>viewProductListRefreshTooltip}"
-                press=".onRefresh" />
-        </headerContent>
-        <subHeader>
-            <Toolbar id="productListToolbar">
-                <SearchField
-                    id="productSearchField"
-                    width="20rem"
-                    placeholder="{i18n>viewProductListSearchPlaceholder}"
-                    search=".onSearch" />
-                <ToolbarSpacer />
-                <Button
-                    id="sortButton"
-                    icon="sap-icon://sort"
-                    tooltip="{i18n>viewProductListSortTooltip}"
-                    press=".onSort" />
-            </Toolbar>
-        </subHeader>
-        <content>
+    <f:DynamicPage
+        id="productListPage"
+        fitContainer="true"
+        headerExpanded="true"
+        class="sapUiNoContentPadding">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="{i18n>viewProductListTitle}" />
+                </f:heading>
+                <f:actions>
+                    <Button
+                        id="refreshButton"
+                        icon="sap-icon://refresh"
+                        tooltip="{i18n>viewProductListRefreshTooltip}"
+                        press=".onRefresh" />
+                    <Button
+                        id="sortButton"
+                        icon="sap-icon://sort"
+                        tooltip="{i18n>viewProductListSortTooltip}"
+                        press=".onSort" />
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <OverflowToolbar id="productListToolbar">
+                    <SearchField
+                        id="productSearchField"
+                        width="20rem"
+                        placeholder="{i18n>viewProductListSearchPlaceholder}"
+                        search=".onSearch" />
+                </OverflowToolbar>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
             <List
                 id="idProductsList"
                 growing="true"
@@ -52,6 +65,6 @@
                     </ObjectListItem>
                 </items>
             </List>
-        </content>
-    </Page>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>

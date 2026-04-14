@@ -1,6 +1,8 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], function (Controller) {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
+], function (Controller, Filter, FilterOperator) {
     "use strict";
 
     return Controller.extend("ui5.claude.controller.ProductList", {
@@ -21,7 +23,16 @@ sap.ui.define([
             }
         },
 
-        onSearch: function () {
+        onSearch: function (oEvent) {
+            var sQuery = oEvent.getParameter("query");
+            var oBinding = this.byId("idProductsList").getBinding("items");
+            if (!oBinding) {
+                return;
+            }
+            var aFilters = sQuery
+                ? [new Filter("ProductName", FilterOperator.Contains, sQuery)]
+                : [];
+            oBinding.filter(aFilters);
         },
 
         onSort: function () {
