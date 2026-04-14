@@ -51,6 +51,16 @@
         "settings": {
           "bundleName": "ui5.claude.i18n.i18n"
         }
+      },
+      "northwind": {
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "settings": {
+          "serviceUrl": "/V4/Northwind/Northwind.svc/",
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "groupId": "$direct"
+        }
       }
     },
     "resources": {
@@ -77,6 +87,13 @@
           "target": [
             "TargetProductList"
           ]
+        },
+        {
+          "name": "RouteProductDetail",
+          "pattern": "Products/{ProductID}",
+          "target": [
+            "TargetProductDetail"
+          ]
         }
       ],
       "targets": {
@@ -86,6 +103,13 @@
           "clearControlAggregation": false,
           "viewId": "ProductList",
           "viewName": "ProductList"
+        },
+        "TargetProductDetail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ProductDetail",
+          "viewName": "ProductDetail"
         }
       }
     },

@@ -6,10 +6,15 @@ metadata:
 type: application
 server:
   customMiddleware:
+    - name: fix-odata-version
+      beforeMiddleware: compression
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        backend:
+          - path: /V4/Northwind/Northwind.svc
+            url: https://services.odata.org
         ui5:
           path:
             - /resources
@@ -26,3 +31,11 @@ server:
       configuration:
         component: ui5.claude
         ui5Theme: sap_horizon
+---
+specVersion: "3.1"
+kind: extension
+type: server-middleware
+metadata:
+  name: fix-odata-version
+middleware:
+  path: middleware/fixOdataVersion.js

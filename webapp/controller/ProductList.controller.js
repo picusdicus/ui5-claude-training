@@ -14,12 +14,25 @@ sap.ui.define([
         },
 
         onRefresh: function () {
+            var oList = this.byId("idProductsList");
+            var oBinding = oList.getBinding("items");
+            if (oBinding) {
+                oBinding.refresh();
+            }
         },
 
         onSearch: function () {
         },
 
         onSort: function () {
+        },
+
+        onUnitPriceObjectListItemPress: function (oEvent) {
+            var oContext = oEvent.getSource().getBindingContext("northwind");
+            var sProductID = oContext.getProperty("ProductID");
+            this.getOwnerComponent().getRouter().navTo("RouteProductDetail", {
+                ProductID: sProductID
+            });
         }
 
     });

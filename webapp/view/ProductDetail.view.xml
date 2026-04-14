@@ -1,0 +1,36 @@
+<mvc:View
+    controllerName="ui5.claude.controller.ProductDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    displayBlock="true">
+    <Page
+        id="idProductDetailPage"
+        title="{i18n>viewProductDetailTitle}"
+        showNavButton="true"
+        navButtonPress="onPageProductDetailNavButtonPress">
+        <content>
+            <form:SimpleForm
+                id="idProductDetailSimpleForm"
+                editable="false"
+                adjustLabelSpan="false"
+                columnsXL="1"
+                columnsL="1">
+                <form:content>
+                    <Label id="idProductNameLabel" text="{i18n>viewProductDetailLabelProductName}" />
+                    <Text id="idProductNameText" text="{northwind>ProductName}" />
+                    <Label id="idUnitPriceLabel" text="{i18n>viewProductDetailLabelUnitPrice}" />
+                    <Text id="idUnitPriceText" text="{northwind>UnitPrice}" />
+                    <Label id="idUnitsInStockLabel" text="{i18n>viewProductDetailLabelUnitsInStock}" />
+                    <Text id="idUnitsInStockText" text="{northwind>UnitsInStock}" />
+                    <Label id="idUnitsOnOrderLabel" text="{i18n>viewProductDetailLabelUnitsOnOrder}" />
+                    <Text id="idUnitsOnOrderText" text="{northwind>UnitsOnOrder}" />
+                    <Label id="idQuantityPerUnitLabel" text="{i18n>viewProductDetailLabelQuantityPerUnit}" />
+                    <Text id="idQuantityPerUnitText" text="{northwind>QuantityPerUnit}" />
+                    <Label id="idDiscontinuedLabel" text="{i18n>viewProductDetailLabelDiscontinued}" />
+                    <Text id="idDiscontinuedText" text="{northwind>Discontinued}" />
+                </form:content>
+            </form:SimpleForm>
+        </content>
+    </Page>
+</mvc:View>

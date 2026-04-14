@@ -28,7 +28,30 @@
             </Toolbar>
         </subHeader>
         <content>
-            <!-- Products list binding goes here -->
+            <List
+                id="idProductsList"
+                growing="true"
+                items="{
+                    path: 'northwind>/Products',
+                    parameters: {
+                        $select: 'ProductID,ProductName,UnitPrice,UnitsInStock'
+                    }
+                }">
+                <items>
+                    <ObjectListItem
+                        id="idUnitPriceObjectListItem"
+                        title="{northwind>ProductName}"
+                        number="{northwind>UnitPrice}"
+                        type="Navigation"
+                        press=".onUnitPriceObjectListItemPress">
+                        <attributes>
+                            <ObjectAttribute
+                                id="idUnitsInStockObjectAttribute"
+                                text="{i18n>viewProductListLabelUnitsInStock}: {northwind>UnitsInStock}" />
+                        </attributes>
+                    </ObjectListItem>
+                </items>
+            </List>
         </content>
     </Page>
 </mvc:View>
