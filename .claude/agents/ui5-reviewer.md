@@ -29,3 +29,7 @@ For each dimension give:
 - Recommendations
 
 End with an overall score and top 3 priority fixes.
+
+## Output
+Always save your review report to docs/ui5/[ComponentName].review.md
+Never return findings inline — always write to disk first, then summarize.
