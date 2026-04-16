@@ -60,7 +60,7 @@
           "synchronizationMode": "None",
           "operationMode": "Server",
           "autoExpandSelect": true,
-          "groupId": "$direct"
+          "groupId": "$auto"
         }
       }
     },

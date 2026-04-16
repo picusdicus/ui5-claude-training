@@ -9,7 +9,12 @@
       "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_click",
       "mcp__playwright__browser_evaluate",
-      "Bash(curl -s http://localhost:8081/css/style.css)"
+      "Bash(curl -s http://localhost:8081/css/style.css)",
+      "Bash(gh issue create --repo picusdicus/ui5-claude-training --title 'Code review fixes: OData error handling, busy state, noDataText' --body ' *)",
+      "Bash(where gh *)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" --version)",
+      "Bash(git checkout *)",
+      "mcp__github__issue_read"
     ]
   }
 }

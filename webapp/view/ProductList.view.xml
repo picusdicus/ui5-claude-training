@@ -45,10 +45,16 @@
                 id="idProductsList"
                 growing="true"
                 growingThreshold="20"
+                busyIndicatorDelay="0"
+                noDataText="{i18n>viewProductListNoData}"
                 items="{
                     path: 'northwind>/Products',
                     parameters: {
                         $select: 'ProductID,ProductName,UnitPrice,UnitsInStock'
+                    },
+                    events: {
+                        dataRequested: '.onDataRequested',
+                        dataReceived: '.onDataReceived'
                     }
                 }">
                 <items>

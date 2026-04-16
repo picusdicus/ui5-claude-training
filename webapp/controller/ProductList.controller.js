@@ -1,8 +1,9 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
-], function (Controller, Filter, FilterOperator) {
+    "sap/ui/model/FilterOperator",
+    "sap/m/MessageBox"
+], function (Controller, Filter, FilterOperator, MessageBox) {
     "use strict";
 
     return Controller.extend("ui5.claude.controller.ProductList", {
@@ -36,6 +37,30 @@ sap.ui.define([
         },
 
         onSort: function () {
+        },
+
+        onDataRequested: function () {
+            var oList = this.byId("idProductsList");
+            if (oList) {
+                oList.setBusy(true);
+            }
+        },
+
+        onDataReceived: function (oEvent) {
+            var oList = this.byId("idProductsList");
+            if (oList) {
+                oList.setBusy(false);
+            }
+            var oError = oEvent.getParameter("error");
+            if (oError) {
+                var sMsg = this.getOwnerComponent()
+                    .getModel("i18n")
+                    .getResourceBundle()
+                    .getText("viewProductListErrorLoad");
+                MessageBox.error(sMsg, {
+                    details: oError.message
+                });
+            }
         },
 
         onUnitPriceObjectListItemPress: function (oEvent) {
