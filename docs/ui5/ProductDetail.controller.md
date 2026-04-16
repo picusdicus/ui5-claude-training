@@ -4,66 +4,49 @@
 - **Type**: Controller
 - **File**: `webapp/controller/ProductDetail.controller.js`
 - **Namespace**: `ui5.claude.controller.ProductDetail`
-- **Last modified**: 2026-04-14T12:47:16+02:00
 
-Controller for the product detail page. Binds a single Northwind product to the view based on the route parameter and handles back navigation.
+Controller for the product detail page. Binds a single Northwind product to the view based on the `ProductID` route parameter and handles back navigation.
 
 ## Overview
 
 ### Purpose
-Displays the full set of fields for a single product selected from the product list. Listens to the `RouteProductDetail` route, resolves the product by its `ProductID` parameter, and binds the view element to the corresponding Northwind entity.
+Display the full field set of a single Northwind product. Listens to the `RouteProductDetail` route, resolves the product by its `ProductID` argument, and binds the view element to the corresponding OData entity.
 
 ### Responsibilities
-- Subscribe to the `RouteProductDetail` pattern-matched event on initialization.
-- Build an element binding against the `northwind` OData V4 model using an explicit `$select` list.
-- Toggle the view busy state while the product data is loading.
-- Show an error `MessageBox` if the OData request fails.
+- Attach a pattern-matched handler to `RouteProductDetail` on init.
+- Build an element binding on the `northwind` OData V4 model with an explicit `$select` list.
+- Toggle view busy state while the product data is loading.
+- Surface OData request errors through `MessageBox.error`.
 - Navigate back to the product list, falling back to `RouteProductList` when no browser history exists.
 
 ### Dependencies
-- `sap/ui/core/mvc/Controller` — base controller class.
-- `sap/ui/core/routing/History` — used to decide whether a browser back navigation is possible.
-- `sap/m/MessageBox` — used to surface OData request errors to the user.
-- OData V4 model registered under the ID `northwind` in `manifest.json`.
-- Route `RouteProductDetail` with the `ProductID` URL parameter.
+- `sap/ui/core/mvc/Controller` — base class.
+- `sap/ui/core/routing/History` — detects whether browser-back is possible.
+- `sap/m/MessageBox` — surfaces OData errors.
+- `northwind` OData V4 model (registered in `manifest.json`).
+- Route `RouteProductDetail` exposing the `ProductID` URL parameter.
 
-## Methods
+## Public Methods
 
 ### onInit()
-Lifecycle hook called once when the controller is instantiated. Attaches the pattern-matched handler of `RouteProductDetail` so the view binding is refreshed every time the route is entered.
+Lifecycle hook. Registers `_onRouteMatched` as the handler for the `RouteProductDetail` pattern-matched event, so the view is re-bound whenever the route is entered.
 
-**Parameters**: none.
-**Returns**: `void`.
-
-**Example**
-```js
-// Called automatically by the UI5 framework when the view is created.
-// No direct invocation required.
-```
-
-### _onRouteMatched(oEvent)
-Private handler executed when the `RouteProductDetail` route is activated. Extracts the `ProductID` from the route arguments, builds the entity path `/Products(<id>)`, and binds it to the view with the product fields required by the form. Manages busy state during the request and displays a `MessageBox.error` on failure.
-
-**Parameters**
-
-| Name   | Type                      | Description                                                                 |
-|--------|---------------------------|-----------------------------------------------------------------------------|
-| oEvent | `sap.ui.base.Event`       | Router `patternMatched` event; its `arguments.ProductID` identifies the product. |
-
-**Returns**: `void`.
+- **Parameters**: none
+- **Returns**: `void`
+- **Side effects**: subscribes the controller to the router event bus.
 
 **Example**
 ```js
-// Triggered automatically when the user navigates to:
-//   #/Products/17
-// which matches RouteProductDetail with ProductID = 17.
+// Invoked by the UI5 framework when the view is created.
+// No direct call is needed.
 ```
 
 ### onPageProductDetailNavButtonPress()
-Handler for the back button in the dynamic page title. Uses the routing `History` to go one step back in the browser history when a previous hash exists; otherwise navigates to `RouteProductList` while replacing the current history entry.
+Handler for the back button in the dynamic page title. If the routing `History` has a previous hash, it performs a `window.history.go(-1)`; otherwise it navigates to `RouteProductList`, replacing the current history entry.
 
-**Parameters**: none.
-**Returns**: `void`.
+- **Parameters**: none
+- **Returns**: `void`
+- **Side effects**: changes the current route / browser history.
 
 **Example**
 ```xml
@@ -73,22 +56,47 @@ Handler for the back button in the dynamic page title. Uses the routing `History
     press="onPageProductDetailNavButtonPress" />
 ```
 
-## Usage example
+## Private Methods
 
-Registering the controller in the corresponding view and route:
+### _onRouteMatched(oEvent)
+Handler for the `RouteProductDetail` pattern-matched event. Reads `ProductID` from the event arguments, builds the `/Products(<id>)` path, and binds it to the view using the `northwind` model with the required `$select` fields. Toggles the view busy indicator around the request and shows a `MessageBox.error` on failure.
 
-```xml
-<!-- webapp/view/ProductDetail.view.xml -->
-<mvc:View
-    controllerName="ui5.claude.controller.ProductDetail"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <!-- ... -->
-</mvc:View>
+| Name   | Type                | Description                                                                 |
+|--------|---------------------|-----------------------------------------------------------------------------|
+| oEvent | `sap.ui.base.Event` | Router `patternMatched` event; `arguments.ProductID` identifies the product. |
+
+- **Returns**: `void`
+- **Side effects**: sets the view element binding, toggles busy state, may open a `MessageBox`.
+
+## OData Bindings
+
+- **Model**: `northwind` (OData V4).
+- **Path**: `/Products(<ProductID>)` — element binding set in the controller.
+- **$select**: `ProductID,ProductName,UnitPrice,UnitsInStock,UnitsOnOrder,QuantityPerUnit,Discontinued`.
+- **Events wired on the binding**:
+  - `dataRequested` — sets the view busy.
+  - `dataReceived` — clears busy and reports errors.
+
+## Events Handled
+
+| Source                          | Event           | Method                                   |
+|---------------------------------|-----------------|------------------------------------------|
+| Router route `RouteProductDetail` | `patternMatched` | `_onRouteMatched`                      |
+| `idProductDetailNavButton` (view) | `press`          | `onPageProductDetailNavButtonPress`    |
+
+## Usage Example
+
+Navigating into the detail page from the product list controller:
+
+```js
+this.getOwnerComponent().getRouter().navTo("RouteProductDetail", {
+    ProductID: oProduct.getProperty("ProductID")
+});
 ```
 
+Route configuration excerpt in `manifest.json`:
+
 ```json
-// webapp/manifest.json (excerpt)
 {
     "sap.ui5": {
         "routing": {
@@ -102,12 +110,4 @@ Registering the controller in the corresponding view and route:
         }
     }
 }
-```
-
-Navigating from the product list:
-
-```js
-this.getOwnerComponent().getRouter().navTo("RouteProductDetail", {
-    ProductID: oProduct.getProperty("ProductID")
-});
 ```
