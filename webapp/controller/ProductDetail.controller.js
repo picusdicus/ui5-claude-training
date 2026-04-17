@@ -14,8 +14,16 @@ sap.ui.define([
 
         _onRouteMatched: function (oEvent) {
             var sProductID = oEvent.getParameter("arguments").ProductID;
-            var sPath = "/Products(" + sProductID + ")";
+            var iProductID = parseInt(sProductID, 10);
+
+            if (isNaN(iProductID) || iProductID <= 0 || String(iProductID) !== sProductID) {
+                this.getOwnerComponent().getRouter().navTo("RouteProductList", {}, {}, true);
+                return;
+            }
+
+            var sPath = "/Products(" + iProductID + ")";
             var oView = this.getView();
+            var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 
             oView.bindElement({
                 path: sPath,
@@ -30,7 +38,9 @@ sap.ui.define([
                     dataReceived: function (oData) {
                         oView.setBusy(false);
                         if (oData.getParameter("error")) {
-                            MessageBox.error(oData.getParameter("error").message);
+                            MessageBox.error(oResourceBundle.getText("viewProductDetailErrorLoad"), {
+                                details: oData.getParameter("error").message
+                            });
                         }
                     }
                 }
