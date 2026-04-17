@@ -19,6 +19,11 @@ A master-detail Fiori app for Northwind Products (List → Detail navigation).
 - MVC: XML views + JS controllers, one controller per view
 - Models: OData V4 bound in manifest.json, device model in Component.js
 
+## UI5 Version
+- manifest.json: 1.146.0
+- ui5.yaml and ui5-local.yaml must always match manifest version
+- Use sap.ui.mdc controls for value helps, not sap.ui.comp (deprecated)
+
 ## Folder Structure
 webapp/
 ├── controller/     # JS controllers — one per view
