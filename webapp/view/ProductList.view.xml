@@ -67,7 +67,10 @@
                         <attributes>
                             <ObjectAttribute
                                 id="idUnitsInStockObjectAttribute"
-                                text="{i18n>viewProductListLabelUnitsInStock}: {northwind>UnitsInStock}" />
+                                text="{
+                                    parts: ['i18n>viewProductListUnitsInStockFormat', 'northwind>UnitsInStock'],
+                                    formatter: '.formatMessage'
+                                }" />
                         </attributes>
                     </ObjectListItem>
                 </items>

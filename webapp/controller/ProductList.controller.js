@@ -2,11 +2,14 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/m/MessageBox"
-], function (Controller, Filter, FilterOperator, MessageBox) {
+    "sap/m/MessageBox",
+    "sap/base/strings/formatMessage"
+], function (Controller, Filter, FilterOperator, MessageBox, formatMessage) {
     "use strict";
 
     return Controller.extend("ui5.claude.controller.ProductList", {
+
+        formatMessage: formatMessage,
 
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
